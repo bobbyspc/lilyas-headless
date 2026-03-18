@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-plus-jakarta);
+  --font-display: var(--font-fraunces);
+  --font-mono: var(--font-geist-mono);
+
+  /* Earthy / Green brand palette */
+  --color-forest: #2D5A3D;
+  --color-forest-dark: #1E3F2B;
+  --color-sage: #7C9A72;
+  --color-sage-light: #B8CCB0;
+  --color-cream: #FBF7F2;
+  --color-sand: #D4C5A9;
+  --color-earth: #2C2417;
+  --color-earth-muted: #6B5744;
+  --color-terracotta: #C4794A;
+  --color-linen: #F0E9DD;
+  --color-moss: #4A7A5A;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-earth);
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar on cart drawer */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
