@@ -3,46 +3,62 @@
 import Link from "next/link";
 import { useCartStore } from "@/lib/cart-store";
 import { SearchInput } from "./search-input";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function Header() {
     const { toggleCart, cart } = useCartStore();
     const [mobileOpen, setMobileOpen] = useState(false);
     const totalQuantity = cart?.totalQuantity ?? 0;
+    const promoRef = useRef<HTMLDivElement>(null);
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const promoHeight = promoRef.current?.offsetHeight ?? 0;
+            setScrolled(window.scrollY > promoHeight);
+        };
+        handleScroll();
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
         <>
             {/* Top promo bar */}
-            <div className="bg-forest-dark px-4 py-2 text-center text-xs font-bold tracking-widest text-white sm:text-sm">
+            <div ref={promoRef} className="bg-forest-dark px-4 py-2 text-center text-xs font-bold tracking-widest text-white sm:text-sm">
                 <Link href="#" className="hover:underline">
                     Write us a love letter for your chance to win! &rarr;
                 </Link>
             </div>
 
-            <header className="sticky top-0 z-30 border-b border-sand/30 bg-white">
-                <div className="mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-12">
+            <header
+                className={`fixed left-2 right-2 z-30 mx-auto max-w-6xl rounded-2xl border border-sand/30 bg-white shadow-lg transition-[top] duration-300 sm:left-4 sm:right-4 ${scrolled ? "top-2 sm:top-4" : "top-12 sm:top-14"}`}
+            >
+                <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
 
                     {/* Left: Mobile menu button (visible on mobile) */}
-                    <button
-                        onClick={() => setMobileOpen(!mobileOpen)}
-                        className="flex h-10 w-10 items-center justify-center rounded-full text-forest hover:bg-cream transition-colors lg:hidden"
-                        aria-label="Toggle menu"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="h-6 w-6"
+                    <div className="flex flex-1 items-center lg:hidden">
+                        <button
+                            onClick={() => setMobileOpen(!mobileOpen)}
+                            className="flex h-10 w-10 items-center justify-center rounded-full text-forest hover:bg-cream transition-colors"
+                            aria-label="Toggle menu"
                         >
-                            {mobileOpen ? (
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            ) : (
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
-                            )}
-                        </svg>
-                    </button>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="h-6 w-6"
+                            >
+                                {mobileOpen ? (
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                ) : (
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+                                )}
+                            </svg>
+                        </button>
+                    </div>
 
                     {/* Left: Desktop Nav Links (hidden on mobile) */}
                     <nav className="hidden flex-1 items-center gap-10 lg:flex">

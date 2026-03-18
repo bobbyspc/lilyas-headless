@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getProducts, getCollections } from "@/lib/shopify";
 import { ProductGrid } from "@/components/product-grid";
@@ -16,10 +17,9 @@ export default async function HomePage() {
       {/* Hero — 50/50 Split */}
       <section className="relative flex min-h-[85vh] flex-col lg:flex-row">
         {/* Left Half: Text Content */}
-        <div className="flex w-full flex-col justify-center bg-forest px-8 py-20 text-white lg:w-1/2 lg:px-16 xl:px-24 bg-gradient-to-br from-forest to-moss">
+        <div className="flex w-full flex-col justify-center bg-forest px-8 pt-32 pb-20 text-white sm:py-20 lg:w-1/2 lg:px-16 xl:px-24 bg-gradient-to-br from-forest to-moss">
           <h1 className="font-display text-6xl font-extrabold leading-[0.9] tracking-tight sm:text-7xl lg:text-[5.5rem] lg:leading-[0.9]">
-            The future is<br />
-            clear.
+            The future is clear.
           </h1>
           <p className="mt-8 max-w-md text-lg leading-relaxed text-sage-light">
             No mixed signals. Just clear plant protein, prebiotic fiber, and
@@ -38,9 +38,12 @@ export default async function HomePage() {
         {/* Right Half: Imagery */}
         <div className="relative min-h-[50vh] w-full lg:w-1/2">
           {/* Unsplash Placeholder for colorful product stack on reflective ground */}
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=2000&auto=format&fit=crop"
             alt="Lilya's colorful cans placeholder"
+            fill
+            priority
+            sizes="(min-width: 1024px) 50vw, 100vw"
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
         </div>
@@ -96,24 +99,47 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Brand Story — 50/50 Split (Image Left, Text Right) */}
-      <section className="relative flex flex-col lg:flex-row border-y border-sand/30">
-        {/* Left Half: Imagery */}
-        <div className="relative min-h-[50vh] w-full lg:w-1/2">
-          {/* Unsplash Placeholder: earthy, farm/greenery, or natural lifestyle */}
-          <img
+      {/* Wavy top divider into brand story */}
+      <div className="relative z-10 -mb-1 bg-cream">
+        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="block w-full" preserveAspectRatio="none">
+          <path d="M0 0H1440V30C1200 10 960 60 720 30C480 0 240 70 0 30V0Z" className="fill-cream" />
+          <path d="M0 30C240 70 480 0 720 30C960 60 1200 10 1440 30V80H0V30Z" className="fill-sage-light/40" />
+        </svg>
+      </div>
+
+      {/* Brand Story — Two Column (Image Left, Text Right) */}
+      <section className="relative grid grid-cols-1 lg:grid-cols-2 bg-sage-light/40 overflow-hidden">
+        {/* Topographical line background */}
+        <svg
+          className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.07]"
+          viewBox="0 0 1000 800"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid slice"
+        >
+          <path d="M-50 200C100 180 200 260 350 220S550 140 700 200S900 300 1050 250" stroke="currentColor" strokeWidth="2" className="text-forest" />
+          <path d="M-50 260C120 240 250 310 380 280S560 200 720 260S880 350 1050 310" stroke="currentColor" strokeWidth="1.5" className="text-forest" />
+          <path d="M-50 320C80 300 220 370 400 340S580 260 740 320S920 400 1050 370" stroke="currentColor" strokeWidth="2" className="text-forest" />
+          <path d="M-50 390C140 370 260 440 410 400S600 330 750 390S900 460 1050 430" stroke="currentColor" strokeWidth="1.5" className="text-forest" />
+          <path d="M-50 460C100 440 230 500 370 470S570 400 730 460S890 530 1050 490" stroke="currentColor" strokeWidth="2" className="text-forest" />
+          <path d="M-50 530C130 510 280 570 420 540S610 470 760 530S920 590 1050 560" stroke="currentColor" strokeWidth="1.5" className="text-forest" />
+          <path d="M-50 600C90 580 210 640 380 610S580 540 740 600S910 660 1050 630" stroke="currentColor" strokeWidth="2" className="text-forest" />
+
+        </svg>
+
+        <div className="relative min-h-[50vh] overflow-hidden">
+          <Image
             src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2000&auto=format&fit=crop"
             alt="Natural ingredients harvested from the earth"
-            className="absolute inset-0 h-full w-full object-cover object-center"
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover p-3 object-center rounded-[40px]"
           />
         </div>
 
-        {/* Right Half: Text Content */}
-        <div className="flex w-full flex-col justify-center bg-sage-light/40 px-8 py-20 text-forest lg:w-1/2 lg:px-16 xl:px-24">
+        <div className="flex flex-col justify-center px-8 py-20 text-forest lg:px-16 xl:px-24">
           <h2 className="font-display text-5xl font-extrabold leading-[0.9] tracking-tight sm:text-6xl lg:text-7xl">
-            From the<br />
-            earth,<br />
-            for you.
+            From the earth, for you.
           </h2>
           <p className="mt-8 max-w-md text-lg leading-relaxed text-earth-muted">
             We believe nourishment starts from the ground up. Every product is
@@ -130,6 +156,14 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Wavy bottom divider out of brand story */}
+      <div className="relative z-10 -mt-1 bg-cream">
+        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="block w-full -scale-x-100" preserveAspectRatio="none">
+          <path d="M0 0C240 40 480 -10 720 30C960 70 1200 0 1440 20V0H0Z" className="fill-sage-light/40" />
+          <path d="M0 80H1440V20C1200 0 960 70 720 30C480 -10 240 40 0 0V80Z" className="fill-cream" />
+        </svg>
+      </div>
 
       {/* Best Sellers */}
       <section className="bg-cream py-24">
