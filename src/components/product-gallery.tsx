@@ -1,12 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Image as ImageType } from "@/lib/shopify/types";
 import { cn } from "@/lib/utils";
 
-export function ProductGallery({ images }: { images: ImageType[] }) {
+type ProductGalleryProps = {
+    images: ImageType[];
+    focusImageUrl?: string;
+};
+
+export function ProductGallery({ images, focusImageUrl }: ProductGalleryProps) {
     const [selectedIndex, setSelectedIndex] = useState(0);
+
+    // Sync to variant image when focusImageUrl changes
+    useEffect(() => {
+        if (!focusImageUrl) return;
+        const idx = images.findIndex((img) => img.url === focusImageUrl);
+        if (idx !== -1) setSelectedIndex(idx);
+    }, [focusImageUrl, images]);
 
     if (images.length === 0) {
         return (

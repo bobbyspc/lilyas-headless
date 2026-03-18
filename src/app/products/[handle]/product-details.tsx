@@ -1,22 +1,38 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import type { Product } from "@/lib/shopify/types";
+import { useState, useMemo, useEffect } from "react";
+import type { Product, ProductVariant } from "@/lib/shopify/types";
 import { formatPrice } from "@/lib/utils";
 import { VariantPicker } from "@/components/variant-picker";
 import { QuantitySelector } from "@/components/quantity-selector";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 
-export function ProductDetails({ product }: { product: Product }) {
-    // Initialize selected options with first available variant
+type ProductDetailsProps = {
+    product: Product;
+    initialVariantId?: string;
+    onVariantChange?: (variant: ProductVariant | undefined) => void;
+};
+
+export function ProductDetails({ product, initialVariantId, onVariantChange }: ProductDetailsProps) {
+    // Initialize selected options — prefer URL variant, then first available
     const initialOptions = useMemo(() => {
+        if (initialVariantId) {
+            const match = product.variants.find(
+                (v) => v.id.endsWith(initialVariantId) || v.id === initialVariantId
+            );
+            if (match) {
+                return Object.fromEntries(
+                    match.selectedOptions.map((o) => [o.name, o.value])
+                );
+            }
+        }
         const firstAvailable =
             product.variants.find((v) => v.availableForSale) ?? product.variants[0];
         if (!firstAvailable) return {};
         return Object.fromEntries(
             firstAvailable.selectedOptions.map((o) => [o.name, o.value])
         );
-    }, [product.variants]);
+    }, [product.variants, initialVariantId]);
 
     const [selectedOptions, setSelectedOptions] =
         useState<Record<string, string>>(initialOptions);
@@ -34,6 +50,12 @@ export function ProductDetails({ product }: { product: Product }) {
     function handleOptionSelect(name: string, value: string) {
         setSelectedOptions((prev) => ({ ...prev, [name]: value }));
     }
+
+    // Notify parent when variant changes (for gallery sync + URL update)
+    useEffect(() => {
+        onVariantChange?.(selectedVariant);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedVariant]);
 
     const price = selectedVariant?.price ?? product.priceRange.min;
     const compareAtPrice = selectedVariant?.compareAtPrice;

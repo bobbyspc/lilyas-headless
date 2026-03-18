@@ -9,15 +9,19 @@ const endpoint = `https://${domain}/api/${apiVersion}/graphql.json`;
 type ShopifyFetchOptions = {
     query: string;
     variables?: Record<string, unknown>;
-    cache?: RequestCache;
+    /** Pass "no-store" for mutations/cart — disables all caching */
+    cache?: "no-store";
     tags?: string[];
+    /** Seconds before stale data is re-fetched (default: 60). Ignored when cache is "no-store" */
+    revalidate?: number;
 };
 
 export async function shopifyFetch<T>({
     query,
     variables = {},
-    cache = "force-cache",
+    cache,
     tags,
+    revalidate = 60,
 }: ShopifyFetchOptions): Promise<T> {
     const res = await fetch(endpoint, {
         method: "POST",
@@ -26,8 +30,10 @@ export async function shopifyFetch<T>({
             "X-Shopify-Storefront-Access-Token": storefrontAccessToken,
         },
         body: JSON.stringify({ query, variables }),
-        cache,
-        ...(tags && { next: { tags } }),
+        // Mutations & cart: never cache. Queries: time-based + tag-based invalidation.
+        ...(cache === "no-store"
+            ? { cache: "no-store" }
+            : { next: { revalidate, tags: tags ?? [] } }),
     });
 
     if (!res.ok) {

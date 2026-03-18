@@ -1,8 +1,8 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getProductByHandle, getProductRecommendations } from "@/lib/shopify";
-import { ProductGallery } from "@/components/product-gallery";
 import { ProductGrid } from "@/components/product-grid";
-import { ProductDetails } from "./product-details";
+import { ProductInteractive } from "./product-interactive";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
@@ -32,10 +32,9 @@ export default async function ProductPage({ params }: Props) {
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             {/* Product main section */}
-            <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-                <ProductGallery images={product.images} />
-                <ProductDetails product={product} />
-            </div>
+            <Suspense fallback={null}>
+                <ProductInteractive product={product} />
+            </Suspense>
 
             {/* Description HTML */}
             {product.descriptionHtml && (

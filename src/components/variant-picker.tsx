@@ -55,14 +55,14 @@ export function VariantPicker({
                                 <button
                                     key={value}
                                     onClick={() => onSelect(option.name, value)}
-                                    disabled={!isAvailable}
+                                    disabled={!isSelected && !isAvailable}
                                     className={cn(
                                         "rounded-full border px-4 py-2 text-sm font-semibold transition-all",
                                         isSelected
                                             ? "border-forest bg-forest text-white"
-                                            : "border-sand bg-white text-earth hover:border-forest",
-                                        !isAvailable &&
-                                        "cursor-not-allowed border-linen bg-linen text-earth-muted/40 line-through"
+                                            : isAvailable
+                                                ? "border-sand bg-white text-earth hover:border-forest"
+                                                : "cursor-not-allowed border-linen bg-linen text-earth-muted/40 line-through"
                                     )}
                                 >
                                     {value}

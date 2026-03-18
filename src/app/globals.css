@@ -17,6 +17,17 @@
   --color-terracotta: #C4794A;
   --color-linen: #F0E9DD;
   --color-moss: #4A7A5A;
+  
+  --animate-marquee: marquee 25s linear infinite;
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 body {
