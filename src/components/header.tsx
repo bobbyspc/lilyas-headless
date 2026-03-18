@@ -21,7 +21,7 @@ export function Header() {
 
             <header className="sticky top-0 z-30 border-b border-sand/30 bg-white">
                 <div className="mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-12">
-                    
+
                     {/* Left: Mobile menu button (visible on mobile) */}
                     <button
                         onClick={() => setMobileOpen(!mobileOpen)}

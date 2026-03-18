@@ -15,23 +15,23 @@ import { NextRequest, NextResponse } from "next/server";
  */
 
 export async function POST(req: NextRequest) {
-  const secret = req.nextUrl.searchParams.get("secret");
+    const secret = req.nextUrl.searchParams.get("secret");
 
-  if (!process.env.SHOPIFY_REVALIDATION_SECRET) {
-    return NextResponse.json(
-      { error: "SHOPIFY_REVALIDATION_SECRET is not configured" },
-      { status: 500 }
-    );
-  }
+    if (!process.env.SHOPIFY_REVALIDATION_SECRET) {
+        return NextResponse.json(
+            { error: "SHOPIFY_REVALIDATION_SECRET is not configured" },
+            { status: 500 }
+        );
+    }
 
-  if (secret !== process.env.SHOPIFY_REVALIDATION_SECRET) {
-    return NextResponse.json({ error: "Invalid secret" }, { status: 401 });
-  }
+    if (secret !== process.env.SHOPIFY_REVALIDATION_SECRET) {
+        return NextResponse.json({ error: "Invalid secret" }, { status: 401 });
+    }
 
-  // Revalidate entire layout so all pages pick up fresh Shopify data
-  revalidatePath("/", "layout");
+    // Revalidate entire layout so all pages pick up fresh Shopify data
+    revalidatePath("/", "layout");
 
-  const topic = req.headers.get("x-shopify-topic") ?? "unknown";
-  return NextResponse.json({ revalidated: true, topic });
+    const topic = req.headers.get("x-shopify-topic") ?? "unknown";
+    return NextResponse.json({ revalidated: true, topic });
 }
 

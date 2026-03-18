@@ -49,21 +49,21 @@ export default async function HomePage() {
       {/* Featured Marquee / Scrolling Text (Bonus to add to the vibe) */}
       <div className="flex overflow-hidden whitespace-nowrap bg-forest-dark py-4 text-white">
         <div className="animate-marquee flex items-center gap-12 font-display text-lg font-bold tracking-wide">
-           <span>🌿 100% Natural</span>
-           <span>•</span>
-           <span>🌱 Plant-Based</span>
-           <span>•</span>
-           <span>✕ No Artificial Stuff</span>
-           <span>•</span>
-           <span>📦 Free Shipping</span>
-           <span>•</span>
-           <span>🌿 100% Natural</span>
-           <span>•</span>
-           <span>🌱 Plant-Based</span>
-           <span>•</span>
-           <span>✕ No Artificial Stuff</span>
-           <span>•</span>
-           <span>📦 Free Shipping</span>
+          <span>🌿 100% Natural</span>
+          <span>•</span>
+          <span>🌱 Plant-Based</span>
+          <span>•</span>
+          <span>✕ No Artificial Stuff</span>
+          <span>•</span>
+          <span>📦 Free Shipping</span>
+          <span>•</span>
+          <span>🌿 100% Natural</span>
+          <span>•</span>
+          <span>🌱 Plant-Based</span>
+          <span>•</span>
+          <span>✕ No Artificial Stuff</span>
+          <span>•</span>
+          <span>📦 Free Shipping</span>
         </div>
       </div>
 
