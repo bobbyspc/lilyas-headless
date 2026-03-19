@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useCartStore } from "@/lib/cart-store";
 import { SearchInput } from "./search-input";
 import { useState, useEffect, useRef } from "react";
@@ -25,9 +26,9 @@ export function Header() {
     return (
         <>
             {/* Top promo bar */}
-            <div ref={promoRef} className="bg-forest-dark px-4 py-2 text-center text-xs font-bold tracking-widest text-white sm:text-sm">
+            <div ref={promoRef} className="bg-cream px-4 py-2 text-center text-xs font-bold tracking-widest text-forest sm:text-sm">
                 <Link href="#" className="hover:underline">
-                    Write us a love letter for your chance to win! &rarr;
+                    Products for delivery in the Tampa Bay area! &rarr;
                 </Link>
             </div>
 
@@ -62,24 +63,34 @@ export function Header() {
 
                     {/* Left: Desktop Nav Links (hidden on mobile) */}
                     <nav className="hidden flex-1 items-center gap-10 lg:flex">
-                        <Link href="/collections" className="font-display text-base font-extrabold tracking-wide text-forest transition-colors hover:text-forest-dark">
+                        <Link href="/collections" className="font-sans text-base font-normal tracking-wide text-forest transition-colors hover:text-forest-dark">
                             Products
                         </Link>
-                        <Link href="/pages/learn" className="font-display text-base font-extrabold tracking-wide text-forest transition-colors hover:text-forest-dark">
-                            Learn
+                        <Link href="/blog" className="font-sans text-base font-normal tracking-wide text-forest transition-colors hover:text-forest-dark">
+                            Blog
+                        </Link>
+                        <Link href="/wholesale" className="font-sans text-base font-normal tracking-wide text-forest transition-colors hover:text-forest-dark">
+                            Wholesale
                         </Link>
                     </nav>
 
                     {/* Center: Logo */}
                     <div className="flex flex-1 justify-center">
-                        <Link href="/" className="font-display text-3xl font-extrabold lowercase tracking-widest text-forest">
-                            lilya&apos;s
+                        <Link href="/">
+                            <Image
+                                src="/lilyas-logo.png"
+                                alt="Lilya's"
+                                width={120}
+                                height={48}
+                                className="h-10 w-auto"
+                                priority
+                            />
                         </Link>
                     </div>
 
                     {/* Right: Actions */}
                     <div className="flex flex-1 items-center justify-end gap-5">
-                        <Link href="/pages/store-locator" className="hidden lg:flex items-center gap-2 font-display text-base font-extrabold tracking-wide text-forest transition-colors hover:text-forest-dark">
+                        <Link href="/pages/store-locator" className="hidden lg:flex items-center gap-2 font-sans text-base font-normal tracking-wide text-forest transition-colors hover:text-forest-dark">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                                 <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
                             </svg>
@@ -115,13 +126,16 @@ export function Header() {
                 {mobileOpen && (
                     <nav className="border-t border-sand/30 bg-white px-4 py-6 lg:hidden">
                         <div className="flex flex-col gap-4">
-                            <Link href="/collections" onClick={() => setMobileOpen(false)} className="font-display text-lg font-extrabold tracking-wide text-forest">
+                            <Link href="/collections" onClick={() => setMobileOpen(false)} className="font-sans text-lg font-normal tracking-wide text-forest">
                                 Products
                             </Link>
-                            <Link href="/pages/learn" onClick={() => setMobileOpen(false)} className="font-display text-lg font-extrabold tracking-wide text-forest">
-                                Learn
+                            <Link href="/blog" onClick={() => setMobileOpen(false)} className="font-sans text-lg font-normal tracking-wide text-forest">
+                                Blog
                             </Link>
-                            <Link href="/pages/store-locator" onClick={() => setMobileOpen(false)} className="font-display text-lg font-extrabold tracking-wide text-forest">
+                            <Link href="/wholesale" onClick={() => setMobileOpen(false)} className="font-sans text-lg font-normal tracking-wide text-forest">
+                                Wholesale
+                            </Link>
+                            <Link href="/pages/store-locator" onClick={() => setMobileOpen(false)} className="font-sans text-lg font-normal tracking-wide text-forest">
                                 Find a Store
                             </Link>
                         </div>

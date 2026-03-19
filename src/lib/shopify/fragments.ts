@@ -128,6 +128,58 @@ export const COLLECTION_FRAGMENT = `
   }
 `;
 
+export const BLOG_FRAGMENT = `
+  fragment BlogFields on Blog {
+    id
+    handle
+    title
+    onlineStoreUrl
+  }
+`;
+
+export const ARTICLE_FRAGMENT = `
+  fragment ArticleFields on Article {
+    id
+    handle
+    title
+    excerpt
+    publishedAt
+    onlineStoreUrl
+    image {
+      ...ImageFields
+    }
+    blog {
+      ...BlogFields
+    }
+  }
+`;
+
+export const ARTICLE_DETAIL_FRAGMENT = `
+  fragment ArticleDetailFields on Article {
+    id
+    handle
+    title
+    excerpt
+    contentHtml
+    publishedAt
+    onlineStoreUrl
+    tags
+    seo {
+      title
+      description
+    }
+    authorV2 {
+      name
+    }
+    image {
+      ...ImageFields
+    }
+    blog {
+      ...BlogFields
+    }
+  }
+`;
+
 export const CART_FRAGMENT = `
   fragment CartFields on Cart {
     id

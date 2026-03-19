@@ -21,7 +21,7 @@ export default async function SearchPage({ searchParams }: Props) {
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-10">
-                <h1 className="font-display text-3xl font-extrabold uppercase tracking-tight text-earth">
+                <h1 className="font-display text-3xl font-normal uppercase tracking-tight text-earth">
                     Search
                 </h1>
                 <form action="/search" method="GET" className="mt-4 max-w-lg">

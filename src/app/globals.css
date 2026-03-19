@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-plus-jakarta);
-  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-cabin-condensed);
+  --font-display: var(--font-calistoga);
   --font-mono: var(--font-geist-mono);
 
   /* Earthy / Green brand palette */
-  --color-forest: #2D5A3D;
+  --color-forest: #304A38;
   --color-forest-dark: #1E3F2B;
   --color-sage: #7C9A72;
   --color-sage-light: #B8CCB0;
@@ -35,6 +35,7 @@ body {
   background: var(--color-cream);
   color: var(--color-earth);
   font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 18px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -52,4 +53,74 @@ html {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Blog article prose */
+.prose {
+  color: var(--color-earth);
+  line-height: 1.75;
+}
+
+.prose h2 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--color-forest);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--color-forest);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+}
+
+.prose a {
+  color: var(--color-moss);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  color: var(--color-forest-dark);
+}
+
+.prose img {
+  border-radius: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-sage);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--color-earth-muted);
+  font-style: italic;
 }

@@ -30,7 +30,7 @@ export default async function ProductPage({ params }: Props) {
     const recommendations = await getProductRecommendations(product.id);
 
     return (
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 pb-12 pt-24 sm:px-6 sm:pt-28 lg:px-8">
             {/* Product main section */}
             <Suspense fallback={null}>
                 <ProductInteractive product={product} />
@@ -39,7 +39,7 @@ export default async function ProductPage({ params }: Props) {
             {/* Description HTML */}
             {product.descriptionHtml && (
                 <div className="mt-16 border-t border-sand/50 pt-10">
-                    <h2 className="font-display text-lg font-bold text-earth mb-4">
+                    <h2 className="font-display text-lg font-normal text-earth mb-4">
                         Details
                     </h2>
                     <div
@@ -52,7 +52,7 @@ export default async function ProductPage({ params }: Props) {
             {/* Related Products */}
             {recommendations.length > 0 && (
                 <div className="mt-16 border-t border-sand/50 pt-10">
-                    <h2 className="font-display text-lg font-bold text-earth mb-6">
+                    <h2 className="font-display text-lg font-normal text-earth mb-6">
                         You May Also Like
                     </h2>
                     <ProductGrid products={recommendations.slice(0, 4)} />

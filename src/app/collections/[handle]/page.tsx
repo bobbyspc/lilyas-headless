@@ -47,7 +47,7 @@ export default async function CollectionPage({ params, searchParams }: Props) {
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                    <h1 className="font-display text-3xl font-extrabold uppercase tracking-tight text-earth">
+                    <h1 className="font-display text-3xl font-normal uppercase tracking-tight text-earth">
                         {collection.title}
                     </h1>
                     {collection.description && (

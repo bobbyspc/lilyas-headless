@@ -15,7 +15,7 @@ export default async function CollectionsPage() {
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-10">
-                <h1 className="font-display text-3xl font-extrabold uppercase tracking-tight text-earth">
+                <h1 className="font-display text-3xl font-normal uppercase tracking-tight text-earth">
                     Collections
                 </h1>
                 <p className="mt-2 text-earth-muted">

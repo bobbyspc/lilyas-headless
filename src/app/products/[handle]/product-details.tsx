@@ -71,7 +71,7 @@ export function ProductDetails({ product, initialVariantId, onVariantChange }: P
             )}
 
             {/* Title */}
-            <h1 className="font-display text-3xl font-extrabold tracking-tight text-earth">
+            <h1 className="font-display text-3xl font-normal tracking-tight text-earth">
                 {product.title}
             </h1>
 

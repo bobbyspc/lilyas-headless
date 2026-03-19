@@ -1,279 +1,34 @@
-import Image from "next/image";
-import Link from "next/link";
-import { getProducts, getCollections } from "@/lib/shopify";
-import { ProductGrid } from "@/components/product-grid";
-import { CollectionCard } from "@/components/collection-card";
+import { getProducts, getCollections, getArticles } from "@/lib/shopify";
+import { Hero } from "@/components/home/hero";
+import { Marquee } from "@/components/home/marquee";
+import { FeaturedCollections } from "@/components/home/featured-collections";
+import { BrandStory } from "@/components/home/brand-story";
+import { BestSellers } from "@/components/home/best-sellers";
+import { Testimonials } from "@/components/home/testimonials";
+import { NearbyCafes } from "@/components/home/nearby-cafes";
+import { BlogHighlights } from "@/components/home/blog-highlights";
+import { Newsletter } from "@/components/home/newsletter";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [{ products }, collections] = await Promise.all([
+  const [{ products }, collections, { articles }] = await Promise.all([
     getProducts({ first: 8 }),
     getCollections(6),
+    getArticles({ first: 3 }),
   ]);
 
   return (
     <>
-      {/* Hero — 50/50 Split */}
-      <section className="relative flex min-h-[85vh] flex-col lg:flex-row">
-        {/* Left Half: Text Content */}
-        <div className="flex w-full flex-col justify-center bg-forest px-8 pt-32 pb-20 text-white sm:py-20 lg:w-1/2 lg:px-16 xl:px-24 bg-gradient-to-br from-forest to-moss">
-          <h1 className="font-display text-6xl font-extrabold leading-[0.9] tracking-tight sm:text-7xl lg:text-[5.5rem] lg:leading-[0.9]">
-            The future is clear.
-          </h1>
-          <p className="mt-8 max-w-md text-lg leading-relaxed text-sage-light">
-            No mixed signals. Just clear plant protein, prebiotic fiber, and
-            smooth, fizzy flavor. A pop worth committing to.
-          </p>
-          <div className="mt-10">
-            <Link
-              href="/collections"
-              className="inline-block rounded-xl bg-forest-dark px-10 py-5 font-display text-base font-bold tracking-wide text-white shadow-xl transition-all hover:bg-white hover:text-forest hover:shadow-2xl"
-            >
-              Pop a Lilya
-            </Link>
-          </div>
-        </div>
-
-        {/* Right Half: Imagery */}
-        <div className="relative min-h-[50vh] w-full lg:w-1/2">
-          {/* Unsplash Placeholder for colorful product stack on reflective ground */}
-          <Image
-            src="https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=2000&auto=format&fit=crop"
-            alt="Lilya's colorful cans placeholder"
-            fill
-            priority
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="absolute inset-0 h-full w-full object-cover object-center"
-          />
-        </div>
-      </section>
-
-      {/* Featured Marquee / Scrolling Text (Bonus to add to the vibe) */}
-      <div className="flex overflow-hidden whitespace-nowrap bg-forest-dark py-4 text-white">
-        <div className="animate-marquee flex items-center gap-12 font-display text-lg font-bold tracking-wide">
-          <span>🌿 100% Natural</span>
-          <span>•</span>
-          <span>🌱 Plant-Based</span>
-          <span>•</span>
-          <span>✕ No Artificial Stuff</span>
-          <span>•</span>
-          <span>📦 Free Shipping</span>
-          <span>•</span>
-          <span>🌿 100% Natural</span>
-          <span>•</span>
-          <span>🌱 Plant-Based</span>
-          <span>•</span>
-          <span>✕ No Artificial Stuff</span>
-          <span>•</span>
-          <span>📦 Free Shipping</span>
-        </div>
-      </div>
-
-      {/* Featured Collections — "Shop by Category" */}
-      {collections.length > 0 && (
-        <section className="bg-cream py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col items-center text-center">
-              <h2 className="font-display text-5xl font-extrabold tracking-tight text-forest sm:text-6xl">
-                Shop by category.
-              </h2>
-              <p className="mt-6 max-w-xl text-lg text-earth-muted">
-                Explore our curated collections, made with love right here from the earth.
-              </p>
-            </div>
-            <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {collections.slice(0, 3).map((collection) => (
-                <CollectionCard key={collection.id} collection={collection} />
-              ))}
-            </div>
-            <div className="mt-16 text-center">
-              <Link
-                href="/collections"
-                className="inline-block rounded-xl border-2 border-forest px-10 py-5 font-display text-base font-bold tracking-wide text-forest transition-all hover:bg-forest hover:text-white"
-              >
-                View All Collections
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Wavy top divider into brand story */}
-      <div className="relative z-10 -mb-1 bg-cream">
-        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="block w-full" preserveAspectRatio="none">
-          <path d="M0 0H1440V30C1200 10 960 60 720 30C480 0 240 70 0 30V0Z" className="fill-cream" />
-          <path d="M0 30C240 70 480 0 720 30C960 60 1200 10 1440 30V80H0V30Z" className="fill-sage-light/40" />
-        </svg>
-      </div>
-
-      {/* Brand Story — Two Column (Image Left, Text Right) */}
-      <section className="relative grid grid-cols-1 lg:grid-cols-2 bg-sage-light/40 overflow-hidden">
-        {/* Topographical line background */}
-        <svg
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.07]"
-          viewBox="0 0 1000 800"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <path d="M-50 200C100 180 200 260 350 220S550 140 700 200S900 300 1050 250" stroke="currentColor" strokeWidth="2" className="text-forest" />
-          <path d="M-50 260C120 240 250 310 380 280S560 200 720 260S880 350 1050 310" stroke="currentColor" strokeWidth="1.5" className="text-forest" />
-          <path d="M-50 320C80 300 220 370 400 340S580 260 740 320S920 400 1050 370" stroke="currentColor" strokeWidth="2" className="text-forest" />
-          <path d="M-50 390C140 370 260 440 410 400S600 330 750 390S900 460 1050 430" stroke="currentColor" strokeWidth="1.5" className="text-forest" />
-          <path d="M-50 460C100 440 230 500 370 470S570 400 730 460S890 530 1050 490" stroke="currentColor" strokeWidth="2" className="text-forest" />
-          <path d="M-50 530C130 510 280 570 420 540S610 470 760 530S920 590 1050 560" stroke="currentColor" strokeWidth="1.5" className="text-forest" />
-          <path d="M-50 600C90 580 210 640 380 610S580 540 740 600S910 660 1050 630" stroke="currentColor" strokeWidth="2" className="text-forest" />
-
-        </svg>
-
-        <div className="relative min-h-[50vh] overflow-hidden">
-          <Image
-            src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2000&auto=format&fit=crop"
-            alt="Natural ingredients harvested from the earth"
-            fill
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover p-3 object-center rounded-[40px]"
-          />
-        </div>
-
-        <div className="flex flex-col justify-center px-8 py-20 text-forest lg:px-16 xl:px-24">
-          <h2 className="font-display text-5xl font-extrabold leading-[0.9] tracking-tight sm:text-6xl lg:text-7xl">
-            From the earth, for you.
-          </h2>
-          <p className="mt-8 max-w-md text-lg leading-relaxed text-earth-muted">
-            We believe nourishment starts from the ground up. Every product is
-            thoughtfully sourced, minimally processed, and crafted to bring you
-            closer to nature&mdash;without compromising on taste.
-          </p>
-          <div className="mt-10">
-            <Link
-              href="/collections"
-              className="inline-block rounded-xl bg-forest px-10 py-5 font-display text-base font-bold tracking-wide text-white shadow-lg transition-all hover:bg-forest-dark hover:shadow-xl"
-            >
-              Discover More
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Wavy bottom divider out of brand story */}
-      <div className="relative z-10 -mt-1 bg-cream">
-        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="block w-full -scale-x-100" preserveAspectRatio="none">
-          <path d="M0 0C240 40 480 -10 720 30C960 70 1200 0 1440 20V0H0Z" className="fill-sage-light/40" />
-          <path d="M0 80H1440V20C1200 0 960 70 720 30C480 -10 240 40 0 0V80Z" className="fill-cream" />
-        </svg>
-      </div>
-
-      {/* Best Sellers */}
-      <section className="bg-cream py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-            <div>
-              <h2 className="font-display text-5xl font-extrabold tracking-tight text-forest sm:text-6xl">
-                Best sellers.
-              </h2>
-              <p className="mt-4 text-lg text-earth-muted">
-                What everyone&apos;s reaching for right now.
-              </p>
-            </div>
-            <Link
-              href="/collections"
-              className="hidden font-display text-base font-bold tracking-wide text-forest transition-colors hover:text-forest-dark sm:block"
-            >
-              Shop All &rarr;
-            </Link>
-          </div>
-          <div className="mt-16">
-            <ProductGrid products={products} />
-          </div>
-          <div className="mt-12 text-center sm:hidden">
-            <Link
-              href="/collections"
-              className="font-display text-base font-bold tracking-wide text-forest"
-            >
-              Shop All &rarr;
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonial / Social Proof — Big text and clean layout */}
-      <section className="bg-linen">
-        <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-24 sm:px-6 lg:px-8">
-          <h2 className="font-display text-center text-4xl font-extrabold tracking-tight text-forest sm:text-5xl">
-            What people<br />are saying.
-          </h2>
-          <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-3">
-            {[
-              {
-                quote: "Finally, a brand that gets it. Clean ingredients AND amazing taste? I’m hooked.",
-                name: "Sarah M.",
-                detail: "Verified Customer",
-              },
-              {
-                quote: "I’ve tried every brand out there. Nothing comes close to the quality and flavor of Lilya’s.",
-                name: "James K.",
-                detail: "Repeat Buyer",
-              },
-              {
-                quote: "My whole family loves these. It’s the only brand my kids actually ask for by name.",
-                name: "Maria L.",
-                detail: "Mom of 3",
-              },
-            ].map((review) => (
-              <div
-                key={review.name}
-                className="flex flex-col items-center text-center p-6"
-              >
-                <div className="flex gap-1 text-moss">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <svg key={i} className="h-6 w-6 fill-current" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="mt-6 text-lg leading-relaxed text-earth">
-                  &ldquo;{review.quote}&rdquo;
-                </p>
-                <div className="mt-8">
-                  <p className="font-display text-lg font-bold text-forest">{review.name}</p>
-                  <p className="text-sm text-earth-muted">{review.detail}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter — bold blocky CTA section */}
-      <section className="bg-forest">
-        <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-24 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-display text-5xl font-extrabold tracking-tight text-white sm:text-6xl">
-            Join the<br />family.
-          </h2>
-          <p className="mt-6 max-w-md text-lg text-sage-light">
-            Get early access to new drops, recipes, and exclusive offers
-            delivered straight to your inbox.
-          </p>
-          <div className="mt-10 flex w-full max-w-md flex-col gap-3 sm:flex-row">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 rounded-xl border-2 border-white/20 bg-white/10 px-6 py-4 text-base text-white outline-none transition-all placeholder:text-white/50 focus:border-white/50 focus:bg-white/15"
-            />
-            <button
-              type="button"
-              className="rounded-xl bg-white px-8 py-4 font-display text-sm font-bold tracking-wide text-forest transition-all hover:bg-cream"
-            >
-              Subscribe
-            </button>
-          </div>
-          <p className="mt-4 text-sm text-sage-light/50">
-            No spam. Unsubscribe anytime.
-          </p>
-        </div>
-      </section>
+      <Hero />
+      <Marquee />
+      <FeaturedCollections collections={collections} />
+      <BrandStory />
+      <BestSellers products={products} />
+      <Testimonials />
+      <NearbyCafes />
+      <BlogHighlights articles={articles} />
+      <Newsletter />
     </>
   );
 }

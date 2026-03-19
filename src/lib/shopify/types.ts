@@ -72,6 +72,47 @@ export type ShopifyCollection = {
     };
 };
 
+export type ShopifyBlog = {
+    id: string;
+    handle: string;
+    title: string;
+    onlineStoreUrl: string | null;
+};
+
+export type ShopifyArticle = {
+    id: string;
+    handle: string;
+    title: string;
+    excerpt: string;
+    publishedAt: string;
+    onlineStoreUrl: string | null;
+    image: ShopifyImage | null;
+    blog: ShopifyBlog | null;
+};
+
+export type ShopifyArticleAuthor = {
+    name: string;
+};
+
+export type ShopifySeo = {
+    title: string | null;
+    description: string | null;
+};
+
+export type ShopifyArticleDetail = ShopifyArticle & {
+    contentHtml: string;
+    authorV2: ShopifyArticleAuthor | null;
+    tags: string[];
+    seo: ShopifySeo;
+};
+
+export type ShopifyBlogWithArticles = ShopifyBlog & {
+    articles: {
+        edges: Array<{ node: ShopifyArticle }>;
+        pageInfo: ShopifyPageInfo;
+    };
+};
+
 export type ShopifyPageInfo = {
     hasNextPage: boolean;
     endCursor: string | null;
@@ -181,6 +222,31 @@ export type Collection = {
     image: Image | null;
     products: Product[];
     pageInfo: { hasNextPage: boolean; endCursor: string | null };
+};
+
+export type Blog = {
+    id: string;
+    handle: string;
+    title: string;
+    url: string | null;
+};
+
+export type Article = {
+    id: string;
+    handle: string;
+    title: string;
+    excerpt: string;
+    publishedAt: string;
+    url: string | null;
+    image: Image | null;
+    blog: Blog | null;
+};
+
+export type ArticleDetail = Article & {
+    contentHtml: string;
+    author: string | null;
+    tags: string[];
+    seo: { title: string | null; description: string | null };
 };
 
 export type CartLineItem = {

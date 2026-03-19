@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Fraunces, Geist_Mono } from "next/font/google";
+import { Cabin_Condensed, Calistoga, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -7,13 +7,15 @@ import { CartDrawer } from "@/components/cart-drawer";
 import { CartProvider } from "@/components/cart-provider";
 import { getServerCart } from "@/lib/cart-actions";
 
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta",
+const cabinCondensed = Cabin_Condensed({
+  variable: "--font-cabin-condensed",
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const calistoga = Calistoga({
+  variable: "--font-calistoga",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -37,7 +39,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${plusJakarta.variable} ${fraunces.variable} ${geistMono.variable} antialiased`}
+        className={`${cabinCondensed.variable} ${calistoga.variable} ${geistMono.variable} antialiased`}
       >
         <CartProvider cart={cart}>
           <Header />

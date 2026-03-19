@@ -1,4 +1,14 @@
-import { IMAGE_FRAGMENT, MONEY_FRAGMENT, PRODUCT_VARIANT_FRAGMENT, PRODUCT_FRAGMENT, PRODUCT_CARD_FRAGMENT, COLLECTION_FRAGMENT } from "./fragments";
+import {
+  IMAGE_FRAGMENT,
+  MONEY_FRAGMENT,
+  PRODUCT_VARIANT_FRAGMENT,
+  PRODUCT_FRAGMENT,
+  PRODUCT_CARD_FRAGMENT,
+  COLLECTION_FRAGMENT,
+  BLOG_FRAGMENT,
+  ARTICLE_FRAGMENT,
+  ARTICLE_DETAIL_FRAGMENT,
+} from "./fragments";
 
 export const GET_PRODUCTS = `
   ${IMAGE_FRAGMENT}
@@ -102,6 +112,55 @@ export const SEARCH_PRODUCTS = `
       pageInfo {
         hasNextPage
         endCursor
+      }
+    }
+  }
+`;
+
+export const GET_ARTICLES = `
+  ${IMAGE_FRAGMENT}
+  ${BLOG_FRAGMENT}
+  ${ARTICLE_FRAGMENT}
+  query GetArticles($first: Int = 3, $after: String, $reverse: Boolean = true) {
+    articles(first: $first, after: $after, sortKey: PUBLISHED_AT, reverse: $reverse) {
+      edges {
+        node {
+          ...ArticleFields
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+`;
+
+export const GET_ARTICLE_BY_HANDLE = `
+  ${IMAGE_FRAGMENT}
+  ${BLOG_FRAGMENT}
+  ${ARTICLE_DETAIL_FRAGMENT}
+  query GetArticleByHandle($handle: String!) {
+    articles(first: 1, query: $handle) {
+      edges {
+        node {
+          ...ArticleDetailFields
+        }
+      }
+    }
+  }
+`;
+
+export const GET_BLOGS = `
+  query GetBlogs($first: Int = 20) {
+    blogs(first: $first) {
+      edges {
+        node {
+          id
+          handle
+          title
+          onlineStoreUrl
+        }
       }
     }
   }

@@ -5,6 +5,9 @@ import {
     GET_PRODUCT_RECOMMENDATIONS,
     GET_COLLECTIONS,
     GET_COLLECTION_BY_HANDLE,
+    GET_ARTICLES,
+    GET_ARTICLE_BY_HANDLE,
+    GET_BLOGS,
     SEARCH_PRODUCTS,
 } from "./queries";
 import {
@@ -18,15 +21,24 @@ import {
     mapProduct,
     mapProductCard,
     mapCollection,
+    mapArticle,
+    mapArticleDetail,
+    mapBlog,
     mapCart,
 } from "./mappers";
 import type {
     ShopifyProduct,
     ShopifyCart,
     ShopifyCollection,
+    ShopifyArticle,
+    ShopifyArticleDetail,
+    ShopifyBlog,
     ShopifyPageInfo,
     Product,
     Collection,
+    Article,
+    ArticleDetail,
+    Blog,
     Cart,
 } from "./types";
 
@@ -187,6 +199,66 @@ export async function searchProducts(
         totalCount: data.search.totalCount,
         pageInfo: data.search.pageInfo,
     };
+}
+
+// ── Articles ──
+
+export async function getArticles(
+    options?: { first?: number; after?: string }
+): Promise<{ articles: Article[]; pageInfo: ShopifyPageInfo }> {
+    const data = await shopifyFetch<{
+        articles: {
+            edges: Array<{ node: ShopifyArticle }>;
+            pageInfo: ShopifyPageInfo;
+        };
+    }>({
+        query: GET_ARTICLES,
+        variables: {
+            first: options?.first ?? 12,
+            after: options?.after,
+            reverse: true,
+        },
+        tags: ["articles"],
+        revalidate: 300,
+    });
+
+    return {
+        articles: data.articles.edges.map((edge) => mapArticle(edge.node)),
+        pageInfo: data.articles.pageInfo,
+    };
+}
+
+export async function getArticleByHandle(
+    handle: string
+): Promise<ArticleDetail | null> {
+    const data = await shopifyFetch<{
+        articles: {
+            edges: Array<{ node: ShopifyArticleDetail }>;
+        };
+    }>({
+        query: GET_ARTICLE_BY_HANDLE,
+        variables: { handle: `handle:${handle}` },
+        tags: ["articles"],
+        revalidate: 300,
+    });
+
+    const node = data.articles.edges[0]?.node;
+    return node ? mapArticleDetail(node) : null;
+}
+
+export async function getBlogs(first = 20): Promise<Blog[]> {
+    const data = await shopifyFetch<{
+        blogs: {
+            edges: Array<{ node: ShopifyBlog }>;
+        };
+    }>({
+        query: GET_BLOGS,
+        variables: { first },
+        tags: ["blogs"],
+        revalidate: 300,
+    });
+
+    return data.blogs.edges.map((e) => mapBlog(e.node));
 }
 
 // ── Cart ──

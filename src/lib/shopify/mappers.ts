@@ -5,6 +5,9 @@ import type {
     ShopifyProduct,
     ShopifyProductVariant,
     ShopifyCollection,
+    ShopifyBlog,
+    ShopifyArticle,
+    ShopifyArticleDetail,
     ShopifyCart,
     ShopifyCartLineItem,
     Money,
@@ -13,6 +16,9 @@ import type {
     Product,
     ProductVariant,
     Collection,
+    Blog,
+    Article,
+    ArticleDetail,
     Cart,
     CartLineItem,
 } from "./types";
@@ -112,6 +118,41 @@ export function mapCollection(c: ShopifyCollection): Collection {
         image: mapImage(c.image),
         products: c.products?.edges?.map((e) => mapProductCard(e.node)) ?? [],
         pageInfo: c.products?.pageInfo ?? { hasNextPage: false, endCursor: null },
+    };
+}
+
+export function mapBlog(blog: ShopifyBlog): Blog {
+    return {
+        id: blog.id,
+        handle: blog.handle,
+        title: blog.title,
+        url: blog.onlineStoreUrl,
+    };
+}
+
+export function mapArticle(article: ShopifyArticle): Article {
+    return {
+        id: article.id,
+        handle: article.handle,
+        title: article.title,
+        excerpt: article.excerpt,
+        publishedAt: article.publishedAt,
+        url: article.onlineStoreUrl,
+        image: mapImage(article.image),
+        blog: article.blog ? mapBlog(article.blog) : null,
+    };
+}
+
+export function mapArticleDetail(article: ShopifyArticleDetail): ArticleDetail {
+    return {
+        ...mapArticle(article),
+        contentHtml: article.contentHtml,
+        author: article.authorV2?.name ?? null,
+        tags: article.tags,
+        seo: {
+            title: article.seo?.title ?? null,
+            description: article.seo?.description ?? null,
+        },
     };
 }
 
